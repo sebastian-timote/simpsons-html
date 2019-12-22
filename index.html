@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebSiteSimpsons</title>
+    <style type="text/css">
+        body{
+            width: 100%;
+            height: 100%;
+            border: 1px solid yellow;
+        }
+        .flex-content{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .flex-container-1{
+            width: 1000px;
+            height:400px;
+            border: 1px solid gray;
+            border-top: none;
+            //background-color: blue;
+            display: flex;
+            flex-direction: column;
+        }
+        .flex-container-2{
+            width: 1000px;
+            display: flex;
+            flex-direction: row;
+        }
+        .panel-azul{
+            background-color:#1C83D3;
+            height: 30px;
+            color: white;
+        }
+        .flex-item{
+            width: 988px;
+            height: 400px;
+            border: 1px solid gray;
+            margin: 5px;
+
+        }
+        .flex-item-left{
+            width: 493px;
+            border: 1px solid gray;
+            margin-right: 5px;
+            
+        }
+        .flex-item-right{
+            width: 493px;
+            border: 1px solid gray;
+            margin-left: 5px;
+            
+        }
+        .linea-horizontal{
+            width: 50px;
+            color: #1C83D3;
+        }
+        
+        .panel-azul-izq{
+            background-color:#1C83D3;
+            height: 30px;
+            color: white;
+            
+        }
+        .panel-blanco-izq{
+            height: 250px;
+            
+
+        }
+        .panel-azul-der{
+            background-color:#1C83D3;
+            height: 30px;
+            color: white;
+            
+
+        }
+        .panel-blanco-der{
+            height: 250px;
+            
+        }
+        .button-1{
+            width: 100%;
+            height: 30px;
+            background-color: red;
+        }
+        .img-simpson{
+            width: 30%;
+            height: 50%;
+            display: block;
+        }
+        p.text-simpson {
+            position: absolute;
+            bottom: 0;
+            background-color: rgba(128,128,128,0.5);
+            padding: 2%;
+        }
+    </style>
+        
+</head>
+
+<body class="flex-content">
+    <div class="flex-container-1">
+        <div class="panel-azul">
+            panel
+        </div>
+        <div class="flex-item">
+            <input type="text" id="entrada-cero"  placeholder="intro 0">
+            <button id="miboton">entrada</button>
+        </div>
+    </div>
+    <hr class="linea-horizontal" align="center"></hr>
+    <div class="flex-container-2">
+        <div class="flex-item-left">
+            <div class="panel-azul-izq">
+                a
+            </div>
+            <div class="panel-blanco-izq" id="aparece1">
+               
+                <button  id="simpson" class="button-1" onClick="showSimpson()">!Presione Aquí!</button>
+
+            </div>
+        </div>
+        
+        <div class="flex-item-right">
+            <div class="panel-azul-der">
+                b
+            </div>
+            <div class="panel-blanco-der" id="myDiv">
+
+                
+            </div>
+            <div class="panel-blanco-der" id="myDiv2">
+
+                
+            </div>
+        </div>
+    </div>
+
+    <script>//ojofalta el type
+        document.getElementById("miboton").onclick=function()
+        {
+            let textousuario;
+            textousuario=document.getElementById("entrada-cero").value
+            if(textousuario==0){
+               document.getElementById("aparece1").style.display="block";
+               document.getElementById("myDiv").style.display="block";
+               document.getElementById("myDiv2").style.display="block";
+            }else{
+                document.getElementById("aparece1").style.display="none";
+                document.getElementById("myDiv").style.display="none";
+                document.getElementById("myDiv2").style.display="none";
+            }
+        }
+        function showSimpson(){
+            let num = 10;
+            misCabeceras = new Headers();
+
+            miInit = { 
+                    method: 'GET',
+                    headers: misCabeceras,
+                    mode: 'cors',
+                    cache: 'default' 
+                };
+           
+            //fetch(`https://thesimpsonsquoteapi.glitch.me/quotes?count=${num}`, miInit)
+            fetch(`./API/response.json`, miInit)
+                .then( function(response) {       
+                    return response.json();
+                })
+
+                .then( function(myJson) { 
+                    let rand = Math.floor(Math.random() * num);
+                     console.log(rand);
+                    document.getElementById("myDiv").innerHTML = `<img class="img-simpson" alt="..." src="${myJson[rand].image}">`;
+                    document.getElementById("myDiv2").innerHTML = `<p class="text-simpson">${myJson[rand].quote}<p>`;
+                })
+                .catch(function(err) {
+                    console.log('Fetch Error :-S', err);
+                        let rand = Math.floor(Math.random() * (num - 0));
+                        console.log(rand);
+                });
+
+        }
+        
+
+    </script>
+
+</body>
+
+</html>
